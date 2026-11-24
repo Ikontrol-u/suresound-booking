@@ -6,6 +6,18 @@
   to = "/terms.html"
   status = 200
 
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[headers]]
+  for = "/dashboard*"
+  [headers.values]
+    Referrer-Policy = "no-referrer"
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache"
+
 [[headers]]
   for = "/*"
   [headers.values]

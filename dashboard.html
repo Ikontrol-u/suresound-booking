@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sure Sound Bookings</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<!-- Home-screen icon and app name (iPhone and Android) -->
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon.png">
+<meta name="apple-mobile-web-app-title" content="Bookings">
+<meta name="application-name" content="Bookings">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#110826">
+<style>
+  html,body{margin:0;height:100%;background:#110826;color:#fff;font:15px/1.5 system-ui,-apple-system,sans-serif}
+  iframe{position:fixed;left:0;right:0;bottom:0;top:env(safe-area-inset-top,0px);width:100%;height:calc(100% - env(safe-area-inset-top,0px));border:0;background:#110826}
+  .msg{max-width:420px;margin:0 auto;padding:80px 20px;text-align:center}
+  .msg b{display:block;font-size:20px;margin-bottom:8px}
+  .msg a{color:#f3cf7a}
+</style>
+</head>
+<body>
+<div class="msg" id="msg" hidden>
+  <b>Sure Sound dashboard</b>
+  This page needs Keith’s private dashboard link. Open the link you were sent, then add it to your home screen.
+</div>
+<script>
+  // The private key comes from the link (?k=...). It is never stored in this website's files.
+  (function () {
+    var APP = 'https://script.google.com/macros/s/AKfycbxLS-IIOH44aT39Q39Xxf_bfqK8gNn6OsWADENd1NZpMAix6oBZUWjBpc4XDqFuuDZq/exec';
+    var k = (new URLSearchParams(location.search).get('k') || '').toLowerCase();
+    if (!/^[a-f0-9]{64}$/.test(k)) { document.getElementById('msg').hidden = false; return; }
+    var f = document.createElement('iframe');
+    f.title = 'Sure Sound bookings dashboard';
+    f.src = APP + '?page=dashboard&key=' + k;
+    document.body.appendChild(f);
+  })();
+</script>
+</body>
+</html>

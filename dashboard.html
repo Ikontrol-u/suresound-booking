@@ -38,6 +38,17 @@
     f.title = 'Sure Sound bookings dashboard';
     f.src = APP + '?page=dashboard&key=' + k;
     document.body.appendChild(f);
+    // Netlify adds a "Powered by Netlify" badge in the top corner. Keep the dashboard below it
+    // so it never covers the buttons.
+    function fit() {
+      var b = document.getElementById('nl-badge-frame');
+      var r = b && b.offsetParent !== null ? b.getBoundingClientRect() : null;
+      var top = r && r.height && r.height < 80 && r.top < 60 ? Math.ceil(r.bottom + 6) : (f.style.top ? parseInt(f.style.top, 10) : 0);
+      f.style.top = top ? top + 'px' : '';
+      f.style.height = top ? 'calc(100% - ' + top + 'px)' : '';
+    }
+    setInterval(fit, 1000);
+    window.addEventListener('resize', fit);
   })();
 </script>
 </body>

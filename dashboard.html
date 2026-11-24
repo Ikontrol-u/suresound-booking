@@ -42,7 +42,7 @@
     // so it never covers the buttons.
     function fit() {
       var b = document.getElementById('nl-badge-frame');
-      var r = b && b.offsetParent !== null ? b.getBoundingClientRect() : null;
+      var r = b && getComputedStyle(b).display !== 'none' ? b.getBoundingClientRect() : null;
       var top = r && r.height && r.height < 80 && r.top < 60 ? Math.ceil(r.bottom + 6) : (f.style.top ? parseInt(f.style.top, 10) : 0);
       f.style.top = top ? top + 'px' : '';
       f.style.height = top ? 'calc(100% - ' + top + 'px)' : '';

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sure Sound Bookings</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="/icon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>html,body{margin:0;height:100%;background:#140a2e;color:#fff;font:15px/1.5 system-ui,-apple-system,sans-serif}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#140a2e}.msg{max-width:420px;margin:0 auto;padding:80px 20px;text-align:center}</style>
+</head>
+<body>
+<div class="msg" id="msg" hidden>This link isn’t complete. Please use the button in your booking email or on your dashboard.</div>
+<script>
+  // Keith's links from his booking emails and dashboard: Accept / Decline (?a=accept&t=…) and Setlist (?page=setlist&r=…&s=…).
+  // Shows that page from the booking system without Google's "created by a Google Apps Script user" banner.
+  (function () {
+    var APP = 'https://script.google.com/macros/s/AKfycbxLS-IIOH44aT39Q39Xxf_bfqK8gNn6OsWADENd1NZpMAix6oBZUWjBpc4XDqFuuDZq/exec';
+    var q = new URLSearchParams(location.search), url = '', title = 'Sure Sound bookings';
+    var a = q.get('a') || '', t = (q.get('t') || '').toLowerCase();
+    var r = (q.get('r') || '').toLowerCase(), s = q.get('s') || '';
+    if ((a === 'accept' || a === 'decline') && /^[a-f0-9]{32}$/.test(t)) {
+      url = APP + '?a=' + a + '&t=' + t; title = a === 'accept' ? 'Confirm booking' : 'Decline booking';
+    } else if (q.get('page') === 'setlist' && /^[a-f0-9]{32}$/.test(r) && /^[A-Za-z0-9_-]{32}$/.test(s)) {
+      url = APP + '?page=setlist&r=' + r + '&s=' + s; title = 'Setlist';
+    }
+    if (!url) { document.getElementById('msg').hidden = false; return; }
+    document.title = title + ' – Sure Sound';
+    // Facebook, Instagram and similar in-app browsers can leave the page blank inside this one
+    if (/FBAN|FBAV|FB_IAB|FBIOS|FB4A|Instagram|Messenger|MicroMessenger|Line\/|TikTok|musical_ly|Snapchat|; wv\)/i.test(navigator.userAgent || '')) { location.replace(url); return; }
+    var f = document.createElement('iframe');
+    f.title = title;
+    f.src = url;
+    document.body.appendChild(f);
+  })();
+</script>
+<script>
+  // Keep Netlify's "Powered by Netlify" badge in the bottom-right corner, out of the way of the page header.
+  (function () {
+    function place() {
+      var b = document.getElementById('nl-badge-frame');
+      if (!b) return;
+      if (!b.__watched) { b.__watched = true; new MutationObserver(place).observe(b, { attributes: true, attributeFilter: ['style'] }); }
+      var gap = window.innerWidth < 600 ? '2px' : '12px';   // tucked right into the corner on phones
+      var s = b.style, want = { top: 'auto', left: 'auto', right: gap, bottom: 'calc(' + gap + ' + env(safe-area-inset-bottom, 0px))' };
+      for (var k in want) if (s.getPropertyValue(k) !== want[k] || s.getPropertyPriority(k) !== 'important') s.setProperty(k, want[k], 'important');
+    }
+    place();
+    new MutationObserver(place).observe(document.documentElement, { childList: true, subtree: true });
+    var n = 0, t = setInterval(function () { place(); if (++n > 30) clearInterval(t); }, 500);
+    window.addEventListener('resize', place);
+  })();
+</script>
+</body>
+</html>

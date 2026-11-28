@@ -33,5 +33,20 @@
 <body>
 <iframe src="https://script.google.com/macros/s/AKfycbxLS-IIOH44aT39Q39Xxf_bfqK8gNn6OsWADENd1NZpMAix6oBZUWjBpc4XDqFuuDZq/exec" title="Sure Sound Entertainment booking" allow="clipboard-write"></iframe>
 <noscript><p>Please <a href="https://script.google.com/macros/s/AKfycbxLS-IIOH44aT39Q39Xxf_bfqK8gNn6OsWADENd1NZpMAix6oBZUWjBpc4XDqFuuDZq/exec">open the booking page here</a>.</p></noscript>
+<script>
+  // Keep Netlify's "Powered by Netlify" badge in the bottom-right corner, out of the way of the page header.
+  (function () {
+    function place() {
+      var b = document.getElementById('nl-badge-frame');
+      if (!b) return;
+      if (!b.__watched) { b.__watched = true; new MutationObserver(place).observe(b, { attributes: true, attributeFilter: ['style'] }); }
+      var s = b.style, want = { top: 'auto', left: 'auto', right: '12px', bottom: 'calc(12px + env(safe-area-inset-bottom, 0px))' };
+      for (var k in want) if (s.getPropertyValue(k) !== want[k] || s.getPropertyPriority(k) !== 'important') s.setProperty(k, want[k], 'important');
+    }
+    place();
+    new MutationObserver(place).observe(document.documentElement, { childList: true, subtree: true });
+    var n = 0, t = setInterval(function () { place(); if (++n > 30) clearInterval(t); }, 500);
+  })();
+</script>
 </body>
 </html>
